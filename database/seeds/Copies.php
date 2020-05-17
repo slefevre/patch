@@ -21,10 +21,8 @@ class Copies extends Seeder
             $date = NULL;
             if ( rand(1,10) % 3 > 1 ) {
               $date = date('Y-m-d', strtotime('-'.mt_rand(1,21).' days') );
-echo "date: $date\n";
               while ( $user_id === NULL || $user_id == 1 ) {
                  $user_id = DB::table('users')->pluck('id')[0];
-echo "user id: $user_id\n";
               }
             }
 
