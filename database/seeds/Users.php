@@ -15,15 +15,14 @@ class Users extends Seeder
         $faker = \Faker\Factory::create();
 
         // librarian is user id 1
-        User::create([
+        DB::table('users')->insert([
             'name' => 'librarian',
             'email' => 'librarian@test.com',
             'password' => Hash::make(Str::random(20)),
         ]);
 
-        // And now let's generate a few dozen users for our app:
-        for ($i = 0; $i < 10; $i++) {
-            User::create([
+        for ($i = 0; $i < 6; $i++) {
+            DB::table('users')->insert([
                 'name' => $faker->name,
                 'email' => $faker->email,
                 'password' => Hash::make(Str::random(20)),
