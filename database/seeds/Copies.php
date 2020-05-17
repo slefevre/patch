@@ -16,20 +16,25 @@ class Copies extends Seeder
 
         for ($i = 0; $i < 30; $i++) {
 
-            $checkout_date = array_rand([NULL, date('Y-m-d', strtotime('-'.mt_rand(1,21).' days') )]);
+            // make the book checked out 2/3rds of the time
             $user_id = NULL;
-            if ( $checkout_date ) {
-              while ( $user_id != 1 ) {
-                 $user_id = DB::table('users')->pluck('id');
+            $date = NULL;
+            if ( rand(1,10) % 3 > 1 ) {
+              $date = date('Y-m-d', strtotime('-'.mt_rand(1,21).' days') );
+echo "date: $date\n";
+              while ( $user_id === NULL || $user_id == 1 ) {
+                 $user_id = DB::table('users')->pluck('id')[0];
+echo "user id: $user_id\n";
               }
             }
 
-            DB::table('titles')->insert([
-                'title_id' => DB::table('titles')->pluck('id'),
-                'user_id' => $user_id,
+            DB::table('copies')->insert([
+                'title_id' => DB::table('titles')->pluck('id')[0],
+                'checkout_user_id' => $user_id,
                 'sn' => $faker->ean8(),
                 'acquisition_date' => date('Y-m-d', strtotime('-'.mt_rand(90,7300).' days')),
-                'checkout_date' => $checkout_date,
+                'checkout_date' => $date,
+                'damage_notes' => NULL,
             ]);
         }
 

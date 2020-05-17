@@ -25,8 +25,8 @@ class CreateCopiesTable extends Migration
             $table->foreign('checkout_user_id')->nullable()->references('id')->on('users')->onDelete('cascade');
 
             $table->dateTime('acquisition_date');
-            $table->dateTime('checkout_date');
-            $table->longText('damage_notes');
+            $table->dateTime('checkout_date')->nullable();
+            $table->longText('damage_notes')->nullable();
         });
     }
 
