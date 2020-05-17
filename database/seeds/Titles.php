@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class Titles extends Seeder
 {
@@ -11,6 +12,15 @@ class Titles extends Seeder
      */
     public function run()
     {
-        //
+        $faker = \Faker\Factory::create();
+
+        for ($i = 0; $i < 6; $i++) {
+            DB::table('titles')->insert([
+                'title' => $faker->sentence($nbWords = rand(1,6), $variableNbWords = true),
+                'isbn' => $faker->isbn13(),
+                'media' => array_rand(['book','ebook','dvd','cd'])
+            ]);
+        }
+
     }
 }
