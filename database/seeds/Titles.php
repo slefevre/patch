@@ -16,7 +16,7 @@ class Titles extends Seeder
 
         for ($i = 0; $i < 6; $i++) {
             DB::table('titles')->insert([
-                'title' => $faker->sentence($nbWords = rand(1,6), $variableNbWords = true),
+                'title' => ucwords($faker->sentence($nbWords = rand(1,6), $variableNbWords = true)),
                 'isbn' => $faker->isbn13(),
                 'media' => array_rand(['book','ebook','dvd','cd'])
             ]);
