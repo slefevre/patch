@@ -19,8 +19,11 @@ class CreateCopiesTable extends Migration
             $table->foreignId('title_id');
             $table->foreign('title_id')->references('id')->on('titles');
             $table->string('sn');
-            $table->foreignId('checkout_user_id');
-            $table->foreign('checkout_user_id')->references('id')->on('users');
+
+            $table->bigInteger('checkout_user_id')->nullable()->unsigned();
+            $table->index('checkout_user_id')->nullable();
+            $table->foreign('checkout_user_id')->nullable()->references('id')->on('users')->onDelete('cascade');
+
             $table->dateTime('acquisition_date');
             $table->dateTime('checkout_date');
             $table->longText('damage_notes');
