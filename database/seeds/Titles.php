@@ -14,7 +14,7 @@ class Titles extends Seeder
     {
         $faker = \Faker\Factory::create();
 
-        for ($i = 0; $i < 6; $i++) {
+        for ($i = 0; $i < 12; $i++) {
             DB::table('titles')->insert([
                 'title' => ucwords($faker->sentence($nbWords = rand(1,6), $variableNbWords = true)),
                 'isbn' => $faker->isbn13(),

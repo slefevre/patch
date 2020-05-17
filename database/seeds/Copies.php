@@ -14,7 +14,7 @@ class Titles extends Seeder
     {
         $faker = \Faker\Factory::create();
 
-        for ($i = 0; $i < 6; $i++) {
+        for ($i = 0; $i < 30; $i++) {
 
             $checkout_date = array_rand([NULL, date('Y-m-d', strtotime('-'.mt_rand(1,21).' days') )]);
             $user_id = NULL;
