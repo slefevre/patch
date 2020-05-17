@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
-class Titles extends Seeder
+class Copies extends Seeder
 {
     /**
      * Run the database seeds.
