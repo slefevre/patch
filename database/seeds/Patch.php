@@ -11,6 +11,10 @@ class Patch extends Seeder
      */
     public function run()
     {
-        //
+        $this->call([
+            USerSeeder::class,
+            TitlesSeeder::class,
+            CopiesSeeder::class,
+        ]);
     }
 }
