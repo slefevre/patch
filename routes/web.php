@@ -16,3 +16,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/titles/', function () {
+  return response()->json([
+    'title1' => 'title goes here',
+    'title2' => 'nother title here',
+  ]);
+});
