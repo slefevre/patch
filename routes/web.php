@@ -31,7 +31,7 @@ Route::post('/title/add/{isbn}', function ($isbn) {
 
 // list all overdue books
 Route::get('/copies/', function () {
-    return \App\Copy::copies();
+    return \App\Copy::all();
 });
 
 // list all overdue books
@@ -52,12 +52,12 @@ Route::delete('/copy/{sn}', function($sn) {
 
 // patron endpoints
 
-// checkout a book
+// checkout a copy
 Route::put('/checkout/{$sn}', function($sn) {
     return \App\Copy::checkout($sn);
 });
 
-// checkout a book
+// return a copy
 Route::delete('/return/{$sn}', function($sn) {
     return \App\Copy::return($sn);
 });
