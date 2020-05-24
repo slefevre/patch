@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class Titles extends Seeder
 {
@@ -18,7 +19,9 @@ class Titles extends Seeder
             DB::table('titles')->insert([
                 'title' => ucwords($faker->sentence($nbWords = rand(1,6), $variableNbWords = true)),
                 'isbn' => $faker->isbn13(),
-                'media' => array_rand(['book','ebook','dvd','cd'])
+                'media' => array_rand(['book','ebook','dvd','cd']),
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ]);
         }
 

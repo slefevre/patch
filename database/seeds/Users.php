@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class Users extends Seeder
 {
@@ -26,6 +27,8 @@ class Users extends Seeder
                 'name' => $faker->name,
                 'email' => $faker->email,
                 'password' => Hash::make(Str::random(20)),
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ]);
         }
 

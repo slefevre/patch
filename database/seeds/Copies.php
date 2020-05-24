@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class Copies extends Seeder
 {
@@ -33,6 +34,8 @@ class Copies extends Seeder
                 'acquisition_date' => date('Y-m-d', strtotime('-'.mt_rand(90,7300).' days')),
                 'checkout_date' => $date,
                 'damage_notes' => NULL,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ]);
         }
 
