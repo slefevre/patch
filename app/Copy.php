@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Copy extends Model
 {
-    protected $fillable = ['sn'];
+    protected $fillable = ['sn','checkout_date'];
 
     public function checkout($user_id, $sn) {
 
@@ -52,7 +52,15 @@ class Copy extends Model
     }
 
     public static function overdue() {
-        return self::all();
+
+
+$date = \Carbon\Carbon::today()->subDays(3)->toDateString();
+
+        $query = self::where('checkout_date', '<', $date )->toSql();
+        $results = self::where('checkout_date', '<', $date );
+        $results = self::where('checkout_date', '<' , date('Y-m-d') );
+
+        return response()->json($results->get()->toJson());
     }
 
 }
