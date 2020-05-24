@@ -54,11 +54,9 @@ class Copy extends Model
     public static function overdue() {
 
 
-$date = \Carbon\Carbon::today()->subDays(3)->toDateString();
+$date = \Carbon\Carbon::today()->subDays(14)->toDateString();
 
-        $query = self::where('checkout_date', '<', $date )->toSql();
-        $results = self::where('checkout_date', '<', $date );
-        $results = self::where('checkout_date', '<' , date('Y-m-d') );
+        $results = self::where('checkout_date', '<' , $date );
 
         return response()->json($results->get()->toJson());
     }
