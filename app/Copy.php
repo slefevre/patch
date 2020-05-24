@@ -25,7 +25,7 @@ class Copy extends Model
         }
 
         if ( $errors ) {
-            return $response()->json($errors);
+            return $response()->json($errors, 400);
         }
 
         // checkout the book
@@ -34,10 +34,12 @@ class Copy extends Model
         $copy->checkout_date = Carbon\Carbon::now();
         $copy->save();
 
+        return $response()->json(['message'=>'User has checked out book. It is due in 14 days.']);
     }
 
     public function delete($sn) {
         Copy::where('sn',$sn)->delete();
+        return $response()->json(['message'=>'Copy has been deleted from the system.'],204);
     }
 
     public function return($sn) {
@@ -45,6 +47,7 @@ class Copy extends Model
         $copy->checkout_user_id = NULL;
         $copy->checkout_date = NULL;
         $copy->save();
+        return $response()->json(['message'=>'User has returned book.'],204);
     }
 
 }
