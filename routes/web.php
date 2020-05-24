@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Title;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,8 +19,5 @@ Route::get('/', function () {
 });
 
 Route::get('/titles/', function () {
-  return response()->json([
-    'title1' => 'title goes here',
-    'title2' => 'nother title here',
-  ]);
+  return Title::all();
 });
