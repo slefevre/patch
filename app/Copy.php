@@ -51,4 +51,8 @@ class Copy extends Model
         return $response()->json(['message'=>'User has returned book.'],204);
     }
 
+    public static function overdue() {
+        return self::all();
+    }
+
 }
