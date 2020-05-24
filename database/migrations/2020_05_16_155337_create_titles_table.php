@@ -18,7 +18,6 @@ class CreateTitlesTable extends Migration
             $table->timestamps();
             $table->string('isbn');
             $table->string('title');
-            $table->string('media');
         });
     }
 
