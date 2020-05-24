@@ -23,12 +23,12 @@ class Copies extends Seeder
             if ( rand(1,10) % 3 > 1 ) {
               $date = date('Y-m-d', strtotime('-'.mt_rand(1,21).' days') );
               while ( $user_id === NULL || $user_id == 1 ) {
-                 $user_id = DB::table('users')->pluck('id')[0];
+                 $user_id = DB::table('users')->inRandomOrder()->first()->id;
               }
             }
 
             DB::table('copies')->insert([
-                'title_id' => DB::table('titles')->pluck('id')[0],
+                'title_id' => DB::table('titles')->inRandomOrder()->first()->id,
                 'checkout_user_id' => $user_id,
                 'sn' => $faker->ean8(),
                 'acquisition_date' => date('Y-m-d', strtotime('-'.mt_rand(90,7300).' days')),
