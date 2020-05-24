@@ -15,10 +15,4 @@ class Title extends Model
     public function remove($isbn) {
     }
 
-    public function overdue() {
-    }
-
-    public function list() {
-    }
-
 }
