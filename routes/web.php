@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Title;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,27 +21,32 @@ Route::get('/', function () {
 
 // list all titles
 Route::get('/titles/', function () {
-    return Title::all();
+    return \App\Title::all();
 });
 
 // add a new title
 Route::post('/title/add/{isbn}', function ($isbn) {
-    return Title::create($title, $isbn);
+    return \App\Title::create($title, $isbn);
 });
 
 // list all overdue books
-Route::get('/copy/overdue', function () {
-    return Copy::overdue();
+Route::get('/copies/', function () {
+    return \App\Copy::copies();
+});
+
+// list all overdue books
+Route::get('/copies/overdue', function () {
+    return \App\Copy::overdue();
 });
 
 // add a copy
 Route::post('/copy/add/{isbn}', function ($isbn) {
-    returnCopy::create($isbn);
+    return \App\Copy::create($isbn);
 });
 
 // delete a copy
 Route::delete('/copy/{sn}', function($sn) {
-    Copy::find($sn)->delete();
+    \App\Copy::find($sn)->delete();
     return 204;
 });
 
@@ -50,15 +54,14 @@ Route::delete('/copy/{sn}', function($sn) {
 
 // checkout a book
 Route::put('/checkout/{$sn}', function($sn) {
-  return Copy::checkout($sn);
+    return \App\Copy::checkout($sn);
 });
 
 // checkout a book
 Route::delete('/return/{$sn}', function($sn) {
-  return Copy::return($sn);
+    return \App\Copy::return($sn);
 });
 
-
 Route::get('/checkouts/', function($id) {
-  return User::checkouts();
+    return \App\User::checkouts();
 });
