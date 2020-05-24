@@ -37,7 +37,7 @@ class Copy extends Model
         return $response()->json(['message'=>'User has checked out book. It is due in 14 days.']);
     }
 
-    public function delete($sn) {
+    public function remove($sn) {
         Copy::where('sn',$sn)->delete();
         return $response()->json(['message'=>'Copy has been deleted from the system.'],204);
     }

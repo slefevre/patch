@@ -46,8 +46,8 @@ Route::post('/copy/add/{isbn}', function ($isbn) {
 
 // delete a copy
 Route::delete('/copy/{sn}', function($sn) {
-    \App\Copy::find($sn)->delete();
-    return 204;
+    \App\Copy::where('sn',$sn)->delete();
+    return response()->json(['message'=>'success'], 200);
 });
 
 // patron endpoints
