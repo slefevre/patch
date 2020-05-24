@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Copy extends Model
 {
+    protected $fillable = ['sn'];
 
     public function checkout($user_id, $sn) {
 

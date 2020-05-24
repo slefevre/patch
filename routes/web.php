@@ -29,12 +29,12 @@ Route::post('/title/add/{isbn}', function ($isbn) {
     return \App\Title::create($title, $isbn);
 });
 
-// list all overdue books
+// list all copies
 Route::get('/copies/', function () {
     return \App\Copy::all();
 });
 
-// list all overdue books
+// list all overdue copies
 Route::get('/copies/overdue', function () {
     return \App\Copy::overdue();
 });
