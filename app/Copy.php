@@ -73,7 +73,7 @@ class Copy extends Model
         ;
 
         if ( $user_id ) {
-            $result->where('user_id', '=', $user_id);
+            $result->where('copies.checkout_user_id', '=', $user_id);
         }
 
         if ( $overdue ) {
