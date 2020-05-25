@@ -8,21 +8,24 @@ class Copy extends Model
 {
     protected $fillable = ['sn','checkout_date'];
 
-    public function checkout($user_id, $sn) {
+    public static function checkout($user_id, $sn) {
 
         // see if they have any overdue books,
         // or if they have any overdue books
 
-        $checkouts = \App\User::checkouts($user_id);
+        $checkouts = self::checkouts($user_id);
 
         $errors = [];
 
-        if ( $checkouts['checkouts'] >= 3 ) {
+        if ( $checkouts->count() >= 3 ) {
             $errors[] = 'User has three books checked out. User must return at least one book to check out another.';
         }
 
-        if ( $checkouts['overdue'] ) {
-            $errors[] = 'User has three books overdue. User must return overdue books to checkout.';
+        foreach ( $checkouts as $checkout ) {
+            if ( $checkouts->overdue ) {
+                $errors[] = 'User has books overdue. User must return overdue books to checkout.';
+                break;
+            }
         }
 
         if ( $errors ) {
@@ -38,12 +41,12 @@ class Copy extends Model
         return $response()->json(['message'=>'User has checked out book. It is due in 14 days.']);
     }
 
-    public function remove($sn) {
+    public static function remove($sn) {
         Copy::where('sn',$sn)->delete();
         return $response()->json(['message'=>'Copy has been deleted from the system.'],204);
     }
 
-    public function return($sn) {
+    public static function return($sn) {
         $copy = Copy::find($sn);
         $copy->checkout_user_id = NULL;
         $copy->checkout_date = NULL;
