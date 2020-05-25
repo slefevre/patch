@@ -52,14 +52,31 @@ class Copy extends Model
     }
 
     public static function overdue() {
-        return response()->json(
-            self::select('checkout_date', 'title', 'name')
-                ->join('users', 'copies.checkout_user_id', '=', 'users.id')
-                ->join('titles', 'copies.title_id', '=', 'titles.id')
-                ->where('checkout_date', '<' , \Carbon\Carbon::today()->subDays(13)->toDateString())
-                ->orderBy('checkout_date')
-            ->get()
-        );
+        return response()->json(self::books($user=NULL, $overdue=TRUE));
     }
 
+    public static function checkouts($user_id) {
+        return response()->json(self::books($user_id));
+    }
+
+    /**
+    * Abstract class for overdue, all copies, user checkouts
+    */
+    public static function books($user_id=NULL, $overdue=NULL) {
+        $result = self::select('checkout_date', 'title', 'name')
+            ->join('users', 'copies.checkout_user_id', '=', 'users.id')
+            ->join('titles', 'copies.title_id', '=', 'titles.id')
+            ->orderBy('checkout_date')
+        ;
+
+        if ( $user_id ) {
+            $result->where('user_id', '=', $user_id);
+        }
+
+        if ( $overdue ) {
+            $result->where('checkout_date', '<', \Carbon\Carbon::today()->subDays(13)->toDateString());
+        }
+
+        return $result->get();
+    }
 }
