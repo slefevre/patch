@@ -14,7 +14,7 @@ class Copy extends Model
         // or if they have any overdue copies
 
         $checkouts = self::copies($user_id);
-return response()->json($checkouts);
+
         $errors = [];
 
         if ( $checkouts->count() >= 3 ) {
@@ -38,7 +38,7 @@ return response()->json($checkouts);
         $copy->checkout_date = Carbon\Carbon::now();
         $copy->save();
 
-        return $response()->json(['message'=>'User has checked out book. It is due in 14 days.']);
+        return response()->json(['message'=>'User has checked out book. It is due in 14 days.']);
     }
 
     public static function remove($sn) {
@@ -51,7 +51,7 @@ return response()->json($checkouts);
         $copy->checkout_user_id = NULL;
         $copy->checkout_date = NULL;
         $copy->save();
-        return $response()->json(['message'=>'User has returned book.'],204);
+        return response()->json(['message'=>'User has returned book.'],204);
     }
 
     public static function overdue() {
