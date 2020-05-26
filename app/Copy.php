@@ -22,7 +22,7 @@ class Copy extends Model
         }
 
         foreach ( $checkouts as $checkout ) {
-            if ( $checkouts->overdue ) {
+            if ( $checkout->days_overdue ) {
                 $errors[] = 'User has books overdue. User must return overdue books to checkout.';
                 break;
             }
@@ -66,7 +66,9 @@ class Copy extends Model
     * Abstract class for overdue, all copies, user checkouts
     */
     public static function books($user_id=NULL, $overdue=NULL) {
-        $result = self::select('checkout_date', 'title', 'name')
+        $result = self::select('checkout_date', 'title', 'name',
+                \DB::raw('GREATEST(DATEDIFF(NOW(),checkout_date) - 14,0) AS days_overdue')
+            )
             ->join('users', 'copies.checkout_user_id', '=', 'users.id')
             ->join('titles', 'copies.title_id', '=', 'titles.id')
             ->orderBy('checkout_date')
