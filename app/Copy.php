@@ -10,20 +10,20 @@ class Copy extends Model
 
     public static function checkout($user_id, $sn) {
 
-        // see if they have any overdue books,
-        // or if they have any overdue books
+        // see if they have any overdue copies,
+        // or if they have any overdue copies
 
-        $checkouts = self::checkouts($user_id);
-
+        $checkouts = self::copies($user_id);
+return response()->json($checkouts);
         $errors = [];
 
         if ( $checkouts->count() >= 3 ) {
-            $errors[] = 'User has three books checked out. User must return at least one book to check out another.';
+            $errors[] = 'User has three copies checked out. User must return at least one book to check out another.';
         }
 
         foreach ( $checkouts as $checkout ) {
             if ( $checkout->days_overdue ) {
-                $errors[] = 'User has books overdue. User must return overdue books to checkout.';
+                $errors[] = 'User has copies overdue. User must return overdue books to checkout.';
                 break;
             }
         }
@@ -55,17 +55,17 @@ class Copy extends Model
     }
 
     public static function overdue() {
-        return response()->json(self::books($user=NULL, $overdue=TRUE));
+        return response()->json(self::copies($user=NULL, $overdue=TRUE));
     }
 
     public static function checkouts($user_id) {
-        return response()->json(self::books($user_id));
+        return response()->json(self::copies($user_id));
     }
 
     /**
     * Abstract class for overdue, all copies, user checkouts
     */
-    public static function books($user_id=NULL, $overdue=NULL) {
+    public static function copies($user_id=NULL, $overdue=NULL) {
         $result = self::select('checkout_date', 'title', 'name',
                 \DB::raw('GREATEST(DATEDIFF(NOW(),checkout_date) - 14,0) AS days_overdue')
             )
