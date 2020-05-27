@@ -34,7 +34,7 @@ class Copy extends Model
 
         // checkout the book
         $copy = Copy::find($sn);
-        $copy->checkout_user_id = $id;
+        $copy->checkout_user_id = $user_id;
         $copy->checkout_date = Carbon\Carbon::now();
         $copy->save();
 
