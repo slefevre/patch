@@ -35,7 +35,7 @@ Route::get('/copies/', function () {
     return \App\Copy::all();
 });
 
-// list all overdue copies
+// #3 list all overdue copies
 Route::get('/copies/overdue', function () {
     return \App\Copy::overdue();
 });
@@ -45,7 +45,7 @@ Route::post('/copy/add/{isbn}', function ($isbn) {
     return \App\Copy::create($isbn);
 });
 
-// delete a copy
+// #2 delete a copy
 Route::delete('/copy/{sn}', function($sn) {
     \App\Copy::where('sn',$sn)->delete();
     return response()->json(['message'=>'success'], 200);
@@ -53,7 +53,7 @@ Route::delete('/copy/{sn}', function($sn) {
 
 // patron endpoints
 
-// checkout a copy
+// #4 checkout a copy
 Route::get('/checkout/{sn}', function(Request $request) {
 
     $user_id = $request->input('user_id');
@@ -73,11 +73,12 @@ Route::get('/checkout/{$sn}', function($sn) {
     return \App\Copy::checkout($sn);
 });
 
-// return a copy
+// #5 return a copy
 Route::delete('/return/{$sn}', function($sn) {
     return \App\Copy::return($sn);
 });
 
+// #6 show user's checkouts
 Route::get('/checkouts/', function($id) {
     return \App\User::checkouts();
 });
