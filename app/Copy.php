@@ -34,16 +34,18 @@ class Copy extends Model
 
         // checkout the book
         try {
-            $copy = Copy::where('sn', $sn)->firstOrFail();
-            $copy->checkout_user_id = $user_id;
-            $copy->checkout_date = \Carbon\Carbon::today()->toDateString();
-            $copy->save();
-            return response()->json(['message'=>'User has checked out a book.'],204);
+            \Db::table('copies')
+            ->where('sn', $sn)
+            ->update([
+                'checkout_user_id' => $user_id,
+                'checkout_date' => \Carbon\Carbon::today()->toDateString()
+            ]);
+
+            return response()->json(['message'=>'User has checked out book. It is due in 14 days.']);
         } catch (Exception $e) {
-            return response()->json($e);
+            return response()->json(['errors'], 400);
         }
 
-        return response()->json(['message'=>'User has checked out book. It is due in 14 days.']);
     }
 
     public static function remove($sn) {
