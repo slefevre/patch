@@ -33,10 +33,15 @@ class Copy extends Model
         }
 
         // checkout the book
-        $copy = Copy::find($sn);
-        $copy->checkout_user_id = $user_id;
-        $copy->checkout_date = Carbon\Carbon::now();
-        $copy->save();
+        try {
+            $copy = Copy::where('sn', $sn)->firstOrFail();
+            $copy->checkout_user_id = $user_id;
+            $copy->checkout_date = \Carbon\Carbon::today()->toDateString();
+            $copy->save();
+            return response()->json(['message'=>'User has checked out a book.'],204);
+        } catch (Exception $e) {
+            return response()->json($e);
+        }
 
         return response()->json(['message'=>'User has checked out book. It is due in 14 days.']);
     }
@@ -47,11 +52,16 @@ class Copy extends Model
     }
 
     public static function return($sn) {
-        $copy = Copy::find($sn);
-        $copy->checkout_user_id = NULL;
-        $copy->checkout_date = NULL;
-        $copy->save();
-        return response()->json(['message'=>'User has returned book.'],204);
+
+        try {
+            $copy = Copy::where('sn', $sn)->firstOrFail();
+            $copy->checkout_user_id = NULL;
+            $copy->checkout_date = NULL;
+            $copy->save();
+            return response()->json(['message'=>'User has returned book.'],204);
+        } catch (Exception $e) {
+            return response()->json($e);
+        }
     }
 
     public static function overdue() {
@@ -79,7 +89,7 @@ class Copy extends Model
         }
 
         if ( $overdue ) {
-            $result->where('checkout_date', '<', \Carbon\Carbon::today()->subDays(13)->toDateString());
+            $result->where('checkout_date', '<=', \Carbon\Carbon::today()->subDays(14)->toDateString());
         }
 
         return $result->get();
