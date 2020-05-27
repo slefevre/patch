@@ -78,6 +78,13 @@ Route::delete('/return/{$sn}', function($sn) {
 });
 
 // #6 show user's checkouts
-Route::get('/checkouts/', function($id) {
-    return \App\User::checkouts();
+Route::get('/checkouts/', function(Request $request) {
+    $user_id = $request->input('user_id');
+
+    // don't allow the librarian to checkout books
+    if ( ! is_numeric($user_id) || $user_id == 1 ) {
+        return response()->json(['error'=>'invalid user id.'],400);
+    }
+
+    return \App\Copy::checkouts($user_id);
 });
