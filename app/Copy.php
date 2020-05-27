@@ -29,7 +29,7 @@ class Copy extends Model
         }
 
         if ( $errors ) {
-            return $response()->json($errors, 400);
+            return response()->json($errors, 400);
         }
 
         // checkout the book

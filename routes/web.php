@@ -54,16 +54,15 @@ Route::delete('/copy/{sn}', function($sn) {
 // patron endpoints
 
 // #4 checkout a copy
-Route::get('/checkout/{sn}', function(Request $request) {
+Route::get('/checkout/{sn}', function($sn, Request $request) {
 
     $user_id = $request->input('user_id');
 
-/*
     // don't allow the librarian to checkout books
     if ( ! is_numeric($user_id) || $user_id == 1 ) {
-      return response()->json(['error'=>'invalid user id.',400);
+        return response()->json(['error'=>'invalid user id.'],400);
     }
-*/
+
     return \App\Copy::checkout($user_id, $request->input('sn'));
 });
 
