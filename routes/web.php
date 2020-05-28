@@ -40,9 +40,26 @@ Route::get('/copies/overdue', function () {
     return \App\Copy::overdue();
 });
 
-// add a copy
-Route::post('/copy/add/{isbn}', function ($isbn) {
-    return \App\Copy::create($isbn);
+// #1 add a copy
+Route::post('/copy/add/{isbn}', function($isbn, Request $request) {
+
+    $title = $request->input('title');
+
+    $errors = [];
+
+    if ( ! $title ) {
+        $errors[] = 'No title specified.';
+    }
+
+    if ( \App\Title::validateIsbn($isbn) === FALSE ) {
+        $errors[] = 'No valid ISBN-10 or ISBN-13 specified.';
+    }
+
+    if ( $errors ) {
+        return response()->json($errors, 400);
+    }
+
+    return \App\Title::create($isbn, $title);
 });
 
 // #2 delete a copy
