@@ -11,9 +11,16 @@ class Title extends Model
 
     public function add($isbn, $title) {
 
+        $title = Title::create([
+            'isbn' => $isbn,
+            'title' => $title
+        ]);
+
+        return $title->save();
     }
 
     public function remove($isbn) {
+        title::where('isbn', $isbn)->delete();
     }
 
 }
