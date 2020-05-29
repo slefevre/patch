@@ -78,7 +78,7 @@ class Copy extends Model
     * Abstract class for overdue, all copies, user checkouts
     */
     public static function copies($user_id=NULL, $overdue=NULL) {
-        $result = self::select('checkout_date', 'title', 'name',
+        $result = self::select('checkout_date', 'title', 'name', 'sn AS serial_number',
                 \DB::raw('GREATEST(DATEDIFF(NOW(),checkout_date) - 14,0) AS days_overdue')
             )
             ->join('users', 'copies.checkout_user_id', '=', 'users.id')
