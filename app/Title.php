@@ -11,11 +11,24 @@ class Title extends Model
 
     public static function add($isbn, $title) {
 
-        $new_title = new Title;
-        $new_title->title = $title;
-        $new_title->isbn = $isbn;
+            $new_title = new Title;
+            $new_title->title = $title;
+            $new_title->isbn = $isbn;
 
-        return $new_title->save();
+        try {
+            $new_title->save();
+            return response()->json('added title');
+        } catch (\Illuminate\Database\QueryException $e) {
+            $message = $e->getMessage();
+
+            if ( stristr($message, "for key 'titles_isbn_unique") ) {
+            // the title already exists.
+                return response()->json(['error'=>"The ISBN $isbn already exists."], 400);
+            }
+
+            // unexpected error
+            return response()->json(['error'=>$message], 400);
+        }
     }
 
     public static function remove($isbn) {
