@@ -91,7 +91,7 @@ class Copy extends Model
         }
 
         if ( $overdue ) {
-            $result->where('checkout_date', '<=', \Carbon\Carbon::today()->subDays(14)->toDateString());
+            $result->where('checkout_date', '<', \Carbon\Carbon::today()->subDays(14)->toDateString());
         }
 
         return $result->get();
