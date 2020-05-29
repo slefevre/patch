@@ -16,7 +16,7 @@ class CreateTitlesTable extends Migration
         Schema::create('titles', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('isbn');
+            $table->string('isbn')->unique();
             $table->string('title');
         });
     }
