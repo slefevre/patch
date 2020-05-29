@@ -80,7 +80,7 @@ Route::delete('/copy/{sn}', function($sn) {
 // patron endpoints
 
 // #4 checkout a copy
-Route::get('/checkout/{sn}', function($sn, Request $request) {
+Route::put('/checkout/{sn}', function($sn, Request $request) {
 
     $user_id = $request->input('user_id');
 
