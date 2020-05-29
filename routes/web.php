@@ -25,23 +25,8 @@ Route::get('/titles/', function () {
     return \App\Title::all();
 });
 
-// add a new title
-Route::post('/title/add/{isbn}', function ($isbn) {
-    return \App\Title::create($title, $isbn);
-});
-
-// list all copies
-Route::get('/copies/', function () {
-    return \App\Copy::all();
-});
-
-// #3 list all overdue copies
-Route::get('/copies/overdue', function () {
-    return \App\Copy::overdue();
-});
-
-// #1 add a copy
-Route::post('/copy/add/{isbn}', function($isbn, Request $request) {
+// #1 add a new title
+Route::post('/title/add/{isbn}', function($isbn, Request $request) {
 
     $title = $request->input('title');
 
@@ -60,6 +45,30 @@ Route::post('/copy/add/{isbn}', function($isbn, Request $request) {
     }
 
     return \App\Title::create($isbn, $title);
+});
+
+// list all copies
+Route::get('/copies/', function () {
+    return \App\Copy::all();
+});
+
+// #3 list all overdue copies
+Route::get('/copies/overdue', function () {
+    return \App\Copy::overdue();
+});
+
+// add a copy
+Route::post('/copy/add/{isbn}', function($isbn, Request $request) {
+
+    if ( \App\Title::validateIsbn($isbn) === FALSE ) {
+        $errors[] = 'No valid ISBN-10 or ISBN-13 specified.';
+    }
+
+    if ( $errors ) {
+        return response()->json($errors, 400);
+    }
+
+#    return \App\Copy::add($isbn);
 });
 
 // #2 delete a copy
