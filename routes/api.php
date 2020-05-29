@@ -26,7 +26,7 @@ Route::get('/titles/', function () {
 });
 
 // #1 add a new title
-Route::get('/title/add/{isbn}', function($isbn, Request $request) {
+Route::post('/title/add/{isbn}', function($isbn, Request $request) {
 
     $title = $request->input('title');
 
