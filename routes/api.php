@@ -22,7 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 // list all titles
 Route::get('/titles/', function () {
-    return \App\Title::all();
+    return \App\Title::titles();
 });
 
 // #1 add a new title

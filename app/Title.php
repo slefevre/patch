@@ -47,4 +47,18 @@ class Title extends Model
         }
         return false;
     }
+
+
+    /**
+    *
+    */
+    public static function titles() {
+        $result = self::select('title', 'isbn'
+            )
+            ->leftjoin('copies', 'copies.title_id', '=', 'titles.id')
+            ->orderBy('title')
+        ;
+
+        return $result->get();
+    }
 }
