@@ -17,7 +17,7 @@ class Title extends Model
 
         try {
             $new_title->save();
-            return response()->json('added title');
+            return response()->json('Added title', 201);
         } catch (\Illuminate\Database\QueryException $e) {
             $message = $e->getMessage();
 
