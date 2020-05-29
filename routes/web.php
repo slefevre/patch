@@ -44,7 +44,7 @@ Route::post('/title/add/{isbn}', function($isbn, Request $request) {
         return response()->json($errors, 400);
     }
 
-    return \App\Title::create($isbn, $title);
+    return \App\Title::add($isbn, $title);
 });
 
 // list all copies

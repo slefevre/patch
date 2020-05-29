@@ -11,12 +11,11 @@ class Title extends Model
 
     public static function add($isbn, $title) {
 
-        $title = Title::create([
-            'isbn' => $isbn,
-            'title' => $title
-        ]);
+        $new_title = new Title;
+        $new_title->title = $title;
+        $new_title->isbn = $isbn;
 
-        return $title->save();
+        return $new_title->save();
     }
 
     public static function remove($isbn) {
