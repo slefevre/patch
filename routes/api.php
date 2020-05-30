@@ -89,7 +89,7 @@ Route::put('/checkout/{sn}', function($sn, Request $request) {
         return response()->json(['error'=>'invalid user id.'],400);
     }
 
-    return \App\Copy::checkout($user_id, $request->input('sn'));
+    return \App\Copy::checkout($user_id, $sn);
 });
 
 // checkout a copy

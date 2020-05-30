@@ -28,6 +28,14 @@ class Copy extends Model
             }
         }
 
+        $copy = Copy::where('sn', $sn)->first();
+
+        if ( is_null($copy) ) {
+            $errors[] = 'Invalid serial number.';
+        } elseif ( is_numeric($copy->checkout_user_id) ) {
+            $errors[] = 'Copy is already checked out. It must be returned first.';
+        }
+
         if ( $errors ) {
             return response()->json($errors, 400);
         }
@@ -47,7 +55,7 @@ class Copy extends Model
                 return response()->json(['error' => 'Copy could not be checked out.'], 400);
             }
         } catch (Exception $e) {
-            return response()->json(['errors'], 400);
+            return response()->json(['error'=>'An unknown error occured.'], 400);
         }
 
     }
