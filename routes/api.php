@@ -92,16 +92,9 @@ Route::put('/checkout/{sn}', function($sn, Request $request) {
     return \App\Copy::checkout($user_id, $sn);
 });
 
-// checkout a copy
-Route::get('/checkout/{$sn}', function($sn) {
-    return response()->json($request);
-    return \App\Copy::checkout($sn);
-});
-
 // #5 return a copy
-Route::get('/return/{$sn}', function($sn) {
-    return response()->json(__FUNCTION__);
-#    return \App\Copy::return($sn);
+Route::delete('/return/{sn}', function($sn) {
+    return \App\Copy::return($sn);
 });
 
 // #6 show user's checkouts
