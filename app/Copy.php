@@ -8,6 +8,18 @@ class Copy extends Model
 {
     protected $fillable = ['sn','checkout_date'];
 
+    public static function add($isbn) {
+        $copy = new Copy;
+        $copy->isbn = $isbn;
+        $copy->sn = '';
+
+        try {
+            $copy->save();
+        } catch (Exception $e) {
+            return response()->json($e);
+        }
+    }
+
     public static function checkout($user_id, $sn) {
 
         // see if they have any overdue copies,
