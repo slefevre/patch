@@ -34,14 +34,18 @@ class Copy extends Model
 
         // checkout the book
         try {
-            \Db::table('copies')
+            $update = \Db::table('copies')
             ->where('sn', $sn)
             ->update([
                 'checkout_user_id' => $user_id,
                 'checkout_date' => \Carbon\Carbon::today()->toDateString()
-            ]);
+            ], ['touch' => FALSE]);
 
-            return response()->json(['message'=>'User has checked out book. It is due in 14 days.']);
+            if ( $update ) {
+                return response()->json(['message'=>'User has checked out book. It is due in 14 days.']);
+            } else {
+                return response()->json(['error' => 'Copy could not be checked out.'], 400);
+            }
         } catch (Exception $e) {
             return response()->json(['errors'], 400);
         }
