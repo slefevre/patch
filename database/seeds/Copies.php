@@ -25,6 +25,12 @@ class Copies extends Seeder
         $date = date('Y-m-d', strtotime('-16 days') );
         self::add(3, $date, 1234567899 );
 
+        // user 4 has three overdue copies checked out
+        for ($i = 0; $i < 3; $i++) {
+            $date = date('Y-m-d', strtotime('-'.mt_rand(14,28).' days') );
+            self::add(4, $date, 1234567895 + $i);
+        }
+
         $faker = \Faker\Factory::create();
 
         // 30 random copies and checkouts
@@ -35,7 +41,7 @@ class Copies extends Seeder
             $date = NULL;
             if ( rand(1,10) % 3 > 1 ) {
                  $date = date('Y-m-d', strtotime('-'.mt_rand(1,21).' days') );
-                 while ( $user_id === NULL || $user_id < 4 ) {
+                 while ( $user_id === NULL || $user_id < 5 ) {
                      $user_id = DB::table('users')->inRandomOrder()->first()->id;
                  }
             }
