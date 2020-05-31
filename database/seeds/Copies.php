@@ -28,7 +28,7 @@ class Copies extends Seeder
         $faker = \Faker\Factory::create();
 
         // 30 random copies and checkouts
-        for ($i = 0; $i < 30; $i++) {
+        for ($i = 0; $i < 15; $i++) {
 
             // make the book checked out 2/3rds of the time
             $user_id = NULL;
