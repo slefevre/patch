@@ -9,12 +9,17 @@ class Copy extends Model
     protected $fillable = ['sn','checkout_date'];
 
     public static function add($isbn) {
-        $copy = new Copy;
-        $copy->isbn = $isbn;
-        $copy->sn = '';
+
+        $faker = \Faker\Factory::create();
+        $sn = $faker->ean8();
 
         try {
-            $copy->save();
+            \DB::insert(
+                'INSERT INTO copies ( sn, title_id )
+                SELECT ? as sn, id FROM titles WHERE isbn = ?',
+                [$sn,$isbn]
+            );
+            return response()->json(['message'=>"Added copy of ISBN $isbn with serial number $sn."]);
         } catch (Exception $e) {
             return response()->json($e);
         }
