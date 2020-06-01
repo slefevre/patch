@@ -32,7 +32,13 @@ class Title extends Model
     }
 
     public static function remove($isbn) {
-        title::where('isbn', $isbn)->delete();
+        $affected = title::where('isbn', $isbn)->delete();
+
+        if ( $affected ) {
+            return response()->json(['error'=>'Title deleted.'], 200);
+        } else {
+            return response()->json(['error'=>'Invalid title ID.'], 400);
+        }
     }
 
     /**
@@ -53,7 +59,7 @@ class Title extends Model
     *
     */
     public static function titles() {
-        $result = self::select('title', 'isbn',
+        $result = self::select('title', 'title_id', 'isbn',
                 \DB::raw('COUNT(title_id) AS copies')
             )
             ->leftjoin('copies', 'copies.title_id', '=', 'titles.id')

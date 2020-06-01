@@ -81,8 +81,7 @@ Route::delete('/copy/{sn}', function($sn) {
 
 // #2 delete a title
 Route::delete('/title/{id}', function($id) {
-    \App\Title::where('id',$id)->delete();
-    return response()->json(['message'=>'Deleted title.'], 200);
+    return \App\Title::remove($id);
 });
 
 // patron endpoints
