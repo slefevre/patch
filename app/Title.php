@@ -59,11 +59,7 @@ class Title extends Model
     *
     */
     public static function titles() {
-        $result = self::select('title', 'title_id', 'isbn',
-                \DB::raw('COUNT(title_id) AS copies')
-            )
-            ->leftjoin('copies', 'copies.title_id', '=', 'titles.id')
-            ->groupBy('title_id')
+        $result = self::select('title', 'id', 'isbn')
             ->orderBy('title')
         ;
 
