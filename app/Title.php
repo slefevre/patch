@@ -9,6 +9,9 @@ class Title extends Model
 
     protected $fillable = ['title','isbn'];
 
+    /**
+     * Add a new title
+     */
     public static function add($isbn, $title) {
 
             $new_title = new Title;
@@ -31,6 +34,9 @@ class Title extends Model
         }
     }
 
+    /**
+     * Remove a title by ID
+     */
     public static function remove($id) {
         $affected = title::where('id', $id)->delete();
 
@@ -56,13 +62,11 @@ class Title extends Model
 
 
     /**
-    *
-    */
+     * List of all titles
+     */
     public static function titles() {
-        $result = self::select('title', 'id', 'isbn')
-            ->orderBy('title')
+        return self::select('title', 'id', 'isbn')
+            ->orderBy('title')->get()
         ;
-
-        return $result->get();
     }
 }
