@@ -21,8 +21,9 @@ class Copies extends Seeder
         }
 
         // user 3 has an overdue book
-        $date = date('Y-m-d', strtotime('-16 days') );
-        self::add(3, $date, 1234567899 );
+        self::add(3, date('Y-m-d', strtotime('-16 days')), 1122334455);
+        self::add(3, date('Y-m-d', strtotime('-18 days')), 1112223334);
+        self::add(3, date('Y-m-d', strtotime('-30 days')), 2221113334);
 
         // hardcode an SN for checking out.
         self::add(NULL,NULL, 1234567810);
