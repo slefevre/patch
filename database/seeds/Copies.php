@@ -25,11 +25,8 @@ class Copies extends Seeder
         $date = date('Y-m-d', strtotime('-16 days') );
         self::add(3, $date, 1234567899 );
 
-        // user 4 has three overdue copies checked out
-        for ($i = 0; $i < 3; $i++) {
-            $date = date('Y-m-d', strtotime('-'.mt_rand(14,28).' days') );
-            self::add(4, $date, 1234567895 + $i);
-        }
+        // hardcode an SN for checking out.
+        self::add(NULL,NULL, 1234567810);
 
         $faker = \Faker\Factory::create();
 
@@ -45,7 +42,7 @@ class Copies extends Seeder
                      $user_id = DB::table('users')->inRandomOrder()->first()->id;
                  }
             }
-#            self::add($user_id, $date, $faker->ean8());
+            self::add($user_id, $date, $faker->ean8());
         }
     }
 

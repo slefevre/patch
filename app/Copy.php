@@ -85,7 +85,7 @@ class Copy extends Model
                 return response()->json(['error' => 'Copy could not be returned.'], 500);
             }
         } catch (Exception $e) {
-            return response()->json($e->getMessage());
+            return response()->json(['error' => 'Copy could not be returned.'], 500);
         }
     }
 
