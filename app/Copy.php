@@ -59,13 +59,7 @@ class Copy extends Model
 
         // checkout the book
         try {
-            $update = \Db::table('copies')
-            ->where('sn', $sn)
-            ->update([
-                'checkout_user_id' => $user_id,
-                'checkout_date' => \Carbon\Carbon::today()->toDateString()
-            ], ['touch' => FALSE]);
-
+            $update = self::checkoutsReturns($sn, $user_id, \Carbon\Carbon::today()->toDateString());
             if ( $update ) {
                 return response()->json(['message'=>'User has checked out book. It is due in 14 days.']);
             } else {
@@ -79,20 +73,33 @@ class Copy extends Model
 
     public static function remove($sn) {
         Copy::where('sn',$sn)->delete();
-        return $response()->json(['message'=>'Copy has been deleted from the system.'],204);
+        return $response()->json(['message'=>'Copy has been removed from the system.'],204);
     }
 
     public static function return($sn) {
-
         try {
-            $copy = Copy::where('sn', $sn)->firstOrFail();
-            $copy->checkout_user_id = NULL;
-            $copy->checkout_date = NULL;
-            $copy->save();
-            return response()->json(['message'=>'User has returned book.'],204);
+            $update = self::checkoutsReturns($sn, NULL, NULL);
+            if ( $update ) {
+                return response()->json(['message'=>'User has returned book.'],204);
+            } else {
+                return response()->json(['error' => 'Copy could not be returned.'], 500);
+            }
         } catch (Exception $e) {
-            return response()->json($e);
+            return response()->json($e->getMessage());
         }
+    }
+
+    /**
+     * Generic method for checkout and returns
+     */
+    private static function checkoutsReturns($sn, $user_id, $date) {
+
+        return \DB::table('copies')
+            ->where('sn', $sn)
+            ->update([
+                'checkout_user_id' => $user_id,
+                'checkout_date' => $date
+            ], ['touch' => FALSE]);
     }
 
     public static function overdue() {
@@ -104,8 +111,8 @@ class Copy extends Model
     }
 
     /**
-    * Abstract class for overdue, all copies, user checkouts
-    */
+     * Generic method for overdue, all copies, user checkouts
+     */
     public static function copies($user_id=NULL, $overdue=NULL) {
         $result = self::select('checkout_date', 'title', 'name', 'sn AS serial_number',
                 \DB::raw('GREATEST(DATEDIFF(NOW(),checkout_date) - 14,0) AS days_overdue')
