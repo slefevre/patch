@@ -31,11 +31,11 @@ class Title extends Model
         }
     }
 
-    public static function remove($isbn) {
-        $affected = title::where('isbn', $isbn)->delete();
+    public static function remove($id) {
+        $affected = title::where('id', $id)->delete();
 
         if ( $affected ) {
-            return response()->json(['error'=>'Title deleted.'], 200);
+            return response()->json(['message'=>'Title deleted.'], 200);
         } else {
             return response()->json(['error'=>'Invalid title ID.'], 400);
         }
